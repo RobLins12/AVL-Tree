@@ -2,7 +2,7 @@
 
 <b> Projeto De Árvore AVL realizado por estudantes da unicap </b>
 
-<b>O que é:</b> Árvore AVL é uma árvore binária de busca balanceada, ou seja, uma árvore balanceada (árvore completa) são as árvores que minimizam o número de comparações efetuadas no pior caso para uma busca com chaves de probabilidades de ocorrências idênticas. Contudo, para garantir essa propriedade em aplicações dinâmicas, é preciso reconstruir a árvore para seu estado ideal a cada operação sobre seus nós (inclusão ou exclusão).
+<b>O que é:</b> Árvore AVL é uma árvore binária de busca balanceada, ou seja, uma árvore balanceada (árvore completa) são as árvores que minimizam o número de compa- rações efetuadas no pior caso para uma busca com chaves de probabilidades de ocorrências idênticas. Contudo, para garantir essa propriedade em aplicações dinâmicas, é preciso reconstruir a árvore para seu estado ideal a cada operação sobre seus nós (inclusão ou exclusão).
 
 <b>Foto de referência:</b>
 
@@ -17,7 +17,7 @@ Nossa árvore possui tais funcionalidades:
   
 <b>search:</b> Procura um nó de acordo com a chave
   
-<b>Metodos de caminhamento:</b>
+<b>Metodos de caminhamento:</b><br>
 -inOrder <br>
 -posOrder <br>
 -preOrder <br>
