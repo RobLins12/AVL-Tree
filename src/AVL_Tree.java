@@ -102,6 +102,7 @@ public class AVL_Tree{
 	}
     private boolean delete(Node x){
         //Caso 1, nó é folha
+        //Caso 2
         
         return false;
     }
