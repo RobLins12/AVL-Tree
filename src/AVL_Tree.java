@@ -100,12 +100,63 @@ public class AVL_Tree{
 			}
 		}
 	}
-    private boolean delete(Node x){
-        //Caso 1, nó é folha
-        //Caso 2
-        
-        return false;
+    public void delete(Key key) {
+        if(isEmpty()){
+            return;
+        }
+        delete(key,this.root);
     }
+    private void delete(Key key , Node<Key,Value> x) {
+
+        Node<Key, Value> nodeToDelete = get(key, x);
+        Node<Key, Value> antecessor = antecessor(nodeToDelete, x);
+        int cmp = key.compareTo(antecessor.getKey());
+        if (Objects.nonNull(nodeToDelete.getLeftNode()) && Objects.nonNull(nodeToDelete.getRightNode())) {
+            TwoChildren(nodeToDelete);
+        } else if (cmp < 0) {
+            antecessor.setLeftNode(LeafOrOneChildren(nodeToDelete));
+        } else if (cmp > 0) {
+            antecessor.setRightNode(LeafOrOneChildren(nodeToDelete));
+        } else { // Delete Root Case
+            if(Objects.isNull(root.getRightNode()) || Objects.isNull(root.getLeftNode())){
+                this.root = LeafOrOneChildren(this.root);
+            }else if(Objects.nonNull(root.getRightNode()) && Objects.isNull(root.getRightNode().getRightNode())){
+                this.root.setRightNode(null);
+            }else{
+                this.root.setRightNode(this.root.getRightNode().getRightNode());
+            }
+        }
+    }
+    private void TwoChildren(Node<Key,Value> node){
+        Node<Key,Value> minValueNode = min(node.getRightNode());
+        node.setKey(minValueNode.getKey());
+        node.setValue(minValueNode.getValue());
+        delete(minValueNode.getKey(),node.getRightNode());
+    }
+    private Node<Key,Value> LeafOrOneChildren(Node<Key,Value> node){
+        if(Objects.isNull(node.getLeftNode())){
+            return node.getRightNode();
+        }
+        if(Objects.isNull(node.getRightNode())){
+            return node.getLeftNode();
+        }
+        return null;
+    }
+    private Node<Key,Value> antecessor(Node<Key,Value> aux ,Node<Key,Value> x) {
+        int cmp = aux.getKey().compareTo(x.getKey());
+        while(cmp != 0) {
+            if (Objects.equals(aux, x.getRightNode()) || Objects.equals(aux, x.getLeftNode())) {
+                break;
+            }
+            if (cmp < 0) {
+                x = x.getLeftNode();
+            }else{
+                x = x.getRightNode();
+            }
+        }
+        return x;
+    }
+}
 
     
 }
