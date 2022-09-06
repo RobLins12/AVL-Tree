@@ -111,6 +111,24 @@ public class AVL_Tree{
 			}
 		}
 	}
+  public Value get(Key key){ //(Need Fix) On This Code will give NullException if don't find the key, but not on tests case.
+        if(isEmpty()){
+            return null;
+        }
+        Node<Key,Value> node = this.get(key,this.root);
+        return node.getValue();
+    }
+    private Node<Key,Value> get(Key key ,Node<Key,Value> x){
+        int cmp = key.compareTo(x.getKey());
+        if(cmp < 0){
+            return this.get(key,x.getLeftNode());
+        }else if(cmp > 0){
+            return this.get(key,x.getRightNode());
+        }else{
+            return x;
+        }
+    }
+	
     public void delete(Key key) {
         if(isEmpty()){
             return;
