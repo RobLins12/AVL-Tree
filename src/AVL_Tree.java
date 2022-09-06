@@ -79,6 +79,17 @@ public class AVL_Tree{
             return x;
         }
     }
+	
+	public Key min(){
+        if(isEmpty()){
+            return null;
+        }
+        Node<Key,Value> auxNode = root;
+        while(Objects.nonNull(auxNode.getLeftNode())){
+            auxNode = auxNode.getLeftNode();
+        }
+        return auxNode.getKey();
+    }
 
     public void delete(Integer key) {
 		this.deleteAVL(this.getRoot(), key);
