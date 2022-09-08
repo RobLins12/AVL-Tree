@@ -22,7 +22,7 @@ public class Main {
                 case 2:
                     System.out.println("Digite o valor do no a ser deletado");
                     Integer d = s.nextInt();
-                    tree.delete(d);
+                    //tree.delete(d);
 
                 case 3:
                     System.out.println("Digite o valor a ser procurado");
@@ -39,7 +39,10 @@ public class Main {
                     }
                     break;
                 case 4:
-                    View.printTree(tree);
+                    System.out.println("\n");
+                    TreePrinter p = new TreePrinter(tree);
+                    p.imprimir(System.out);
+                    System.out.println("\n");
                     break;
             
             }

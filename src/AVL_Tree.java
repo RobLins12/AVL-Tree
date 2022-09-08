@@ -80,6 +80,7 @@ public class AVL_Tree{
         }
     }
 	
+    /* 
 	public Key min(){
         if(isEmpty()){
             return null;
@@ -185,7 +186,7 @@ public class AVL_Tree{
         }
         return x;
     }
-}
+}*/
 
     
 }
