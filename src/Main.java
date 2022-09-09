@@ -1,4 +1,5 @@
 package src;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -6,9 +7,12 @@ public class Main {
         //Árvore idealizada para trabalhar com inteiros
         Scanner s = new Scanner(System.in);
         AVL_Tree tree = new AVL_Tree();
+        System.out.println("Bem vindo ao projeto AVL");
+        try{
+        int op;
         do{
             View.Begin();
-            int op = s.nextInt();
+            op = s.nextInt();
             while (op < 0 || op > 4) {
                 System.out.println("ERRO: INSIRA UMA ALTERNATIVA VALIDA");
                 op = s.nextInt();
@@ -18,11 +22,21 @@ public class Main {
                     System.out.println("Digite o valor do no a ser inserido");
                     Integer i = s.nextInt();
                     tree.insert(i);
+                    System.out.println("\n");
+                    TreePrinter p = new TreePrinter(tree);
+                    p.imprimir(System.out);
+                    System.out.println("\n");
                     break;
+
                 case 2:
                     System.out.println("Digite o valor do no a ser deletado");
                     Integer d = s.nextInt();
-                    //tree.delete(d);
+                    tree.deleteNode(d);
+                    System.out.println("\n");
+                    TreePrinter p2 = new TreePrinter(tree);
+                    p2.imprimir(System.out);
+                    System.out.println("\n");
+                    break;
 
                 case 3:
                     System.out.println("Digite o valor a ser procurado");
@@ -30,22 +44,41 @@ public class Main {
                     Node curr = tree.search(r);
                     if (curr != null) {
                         System.out.println("Nó existe na árvore");
-                        System.out.println("Left:" + curr.getLeft().getKey());
-                        System.out.println("Right:" + curr.getRight().getKey());
+                        if (curr.getLeft() != null) {
+                           System.out.println("Left:" + curr.getLeft().getKey()); 
+                        }
+                        if (curr.getRight() != null) {
+                            System.out.println("Right:" + curr.getRight().getKey());
+                        }
                         System.out.println("Height:" + curr.getHeight());
                     } 
                     else{
                         System.out.println("Nó não existe na árvore");
                     }
                     break;
+
                 case 4:
-                    System.out.println("\n");
-                    TreePrinter p = new TreePrinter(tree);
-                    p.imprimir(System.out);
-                    System.out.println("\n");
-                    break;
-            
+                    View.walk();
+                    TreeWalker walker = new TreeWalker(tree);
+                    int op2 = s.nextInt();
+                    switch (op2) {
+                        case 1: System.out.println(walker.preorder()); 
+                            
+                        case 2: System.out.println(walker.inOrder()); 
+                            
+                        case 3: System.out.println(walker.postorder());
+
+                        case 4: System.out.println(walker.breadthFirst());
+                    }
+                    break;                  
             }
-        }while(true);
+        }while(op != 0);
+        s.close();
+        }catch (InputMismatchException e) {
+        System.out.println("Você inseriu um valor invalido");
+        }
+        finally{
+            System.out.println("Finalizando programa");
+        }
     }
 }

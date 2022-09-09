@@ -10,8 +10,8 @@ public class Queue{
         this.queue = new ArrayList<>();
     }
 
-    public void enqueue(Node x) {
-        queue.add(x);
+    public void enqueue(Node node) {
+        queue.add(node);
     }
         
     public Node dequeue() throws RuntimeException {

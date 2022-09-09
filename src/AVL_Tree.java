@@ -3,8 +3,7 @@ package src;
 public class AVL_Tree{
     
     private Node root;
-    private int balance;
-
+ 
     public Node getRoot() {
         return root;
     }
@@ -20,174 +19,174 @@ public class AVL_Tree{
     public boolean isEmpty(){
         return this.root == null;
     }
-
-    private void setBalance(Node n) {
-		n.setHeight(altura(n.getRight()) - altura(n.getLeft()));
-	}
-
-    public int altura(Node curr) {
-		if (curr.getLeft() == null && curr.getRight() == null) {
-			return 0;
-		
-		} else if (curr.getLeft() == null) {
-			return 1 + altura(curr.getRight());
-		
-		} else if (curr.getRight() == null) {
-			return 1 + altura(curr.getLeft());
-		
-		} else {
-			return 1 + Math.max(altura(curr.getLeft()), altura(curr.getRight()));
-		}
-	}
      
     public void insert(Integer key){
         this.setRoot(insert(key, this.getRoot()));
     }
 
-    private Node insert(Integer key, Node x){
-        if (x == null) {
+    private Node insert(Integer key, Node node){
+        if (node == null) {
             return new Node(key);
         } else {
-            int cmp = key.compareTo(x.getKey());
+            int cmp = key.compareTo(node.getKey());
             if(cmp < 0){
-                Node leftSubTree = this.insert(key, x.getLeft());
-                x.setLeft(leftSubTree);
+                Node leftSubTree = this.insert(key, node.getLeft());
+                node.setLeft(leftSubTree);
             }else if(cmp > 0){
-                Node rigthtSubTree = this.insert(key, x.getRight());
-                x.setRight(rigthtSubTree);
+                Node rigthtSubTree = this.insert(key, node.getRight());
+                node.setRight(rigthtSubTree);
             }else{
-                return x;
+                return node;
             } 
         }
-        return x;
+
+        updateHeight(node);
+
+        return rebalance(node);
     }
 
     public Node search(Integer key){
         return this.search(key, this.getRoot());
     }
 
-    private Node search(Integer key, Node x){
-        if (x == null) {
+    private Node search(Integer key, Node node){
+        if (node == null) {
             return null;
         }
-        int cmp = key.compareTo(x.getKey());
+        int cmp = key.compareTo(node.getKey());
         if(cmp < 0){
-            return this.search(key, x.getLeft());
+            return this.search(key, node.getLeft());
         }else if(cmp > 0){
-            return this.search(key, x.getRight());
+            return this.search(key, node.getRight());
         }else{
-            return x;
+            return node;
         }
     }
 	
-    /* 
-	public Key min(){
-        if(isEmpty()){
-            return null;
+    public void deleteNode(Integer key) {
+        root = deleteNode(key, root);
+      }
+      
+      Node deleteNode(Integer key, Node node) {
+        if (node == null) {
+          return null;
         }
-        Node<Key,Value> auxNode = root;
-        while(Objects.nonNull(auxNode.getLeftNode())){
-            auxNode = auxNode.getLeftNode();
+      
+        // Traverse the tree to the left or right depending on the key
+        if (key < node.getKey()) {
+          node.setLeft(deleteNode(key, node.getLeft()));
+        } else if (key > node.getKey()) {
+          node.setRight(deleteNode(key, node.getRight()));
         }
-        return auxNode.getKey();
-    }
+      
+        // At this point, "node" is the node to be deleted
+      
+        // Node has no children --> just delete it
+        else if (node.getLeft() == null && node.getRight() == null) {
+          node = null;
+        }
+      
+        // Node has only one child --> replace node by its single child
+        else if (node.getLeft() == null) {
+          node = node.getRight();
+        } else if (node.getRight() == null) {
+          node = node.getLeft();
+        }
+      
+        // Node has two children
+        else {
+          deleteNodeWithTwoChildren(node);
+        }
+        
+        updateHeight(node);
 
-    public void delete(Integer key) {
-		this.deleteAVL(this.getRoot(), key);
-	}
+        return rebalance(node);
+      }
 
-	private void deleteAVL(Node n, Integer key) {
-		if (n == null) {
-			return;
+      private void deleteNodeWithTwoChildren(Node node) {
+        // Find minimum node of right subtree ("inorder successor" of current node)
+        Node inOrderSuccessor = findMinimum(node.getRight());
+      
+        // Copy inorder successor's getKey() to current node
+        node.setKey(inOrderSuccessor.getKey()); 
+      
+        // Delete inorder successor recursively
+        node.setRight(deleteNode(inOrderSuccessor.getKey(), node.getRight())); 
+      }
+      
+      private Node findMinimum(Node node) {
+        while (node.getLeft() != null) {
+          node = node.getLeft();
+        }
+        return node;
+      }
 
-		} else {
-			if (n.getKey() > key) {
-				deleteAVL(n.getLeft(), key);
-
-			} else if (n.getKey() < key) {
-				deleteAVL(n.getRight(), key);
-
-			} else if (n.getKey() == key) {
-				delete(n);
-			}
-		}
-	}
-  public Value get(Key key){ //(Need Fix) On This Code will give NullException if don't find the key, but not on tests case.
-        if(isEmpty()){
-            return null;
-        }
-        Node<Key,Value> node = this.get(key,this.root);
-        return node.getValue();
-    }
-    private Node<Key,Value> get(Key key ,Node<Key,Value> x){
-        int cmp = key.compareTo(x.getKey());
-        if(cmp < 0){
-            return this.get(key,x.getLeftNode());
-        }else if(cmp > 0){
-            return this.get(key,x.getRightNode());
-        }else{
-            return x;
-        }
-    }
-	
-    public void delete(Key key) {
-        if(isEmpty()){
-            return;
-        }
-        delete(key,this.root);
-    }
-    private void delete(Key key , Node<Key,Value> x) {
-
-        Node<Key, Value> nodeToDelete = get(key, x);
-        Node<Key, Value> antecessor = antecessor(nodeToDelete, x);
-        int cmp = key.compareTo(antecessor.getKey());
-        if (Objects.nonNull(nodeToDelete.getLeftNode()) && Objects.nonNull(nodeToDelete.getRightNode())) {
-            TwoChildren(nodeToDelete);
-        } else if (cmp < 0) {
-            antecessor.setLeftNode(LeafOrOneChildren(nodeToDelete));
-        } else if (cmp > 0) {
-            antecessor.setRightNode(LeafOrOneChildren(nodeToDelete));
-        } else { // Delete Root Case
-            if(Objects.isNull(root.getRightNode()) || Objects.isNull(root.getLeftNode())){
-                this.root = LeafOrOneChildren(this.root);
-            }else if(Objects.nonNull(root.getRightNode()) && Objects.isNull(root.getRightNode().getRightNode())){
-                this.root.setRightNode(null);
-            }else{
-                this.root.setRightNode(this.root.getRightNode().getRightNode());
-            }
-        }
-    }
-    private void TwoChildren(Node<Key,Value> node){
-        Node<Key,Value> minValueNode = min(node.getRightNode());
-        node.setKey(minValueNode.getKey());
-        node.setValue(minValueNode.getValue());
-        delete(minValueNode.getKey(),node.getRightNode());
-    }
-    private Node<Key,Value> LeafOrOneChildren(Node<Key,Value> node){
-        if(Objects.isNull(node.getLeftNode())){
-            return node.getRightNode();
-        }
-        if(Objects.isNull(node.getRightNode())){
-            return node.getLeftNode();
-        }
-        return null;
-    }
-    private Node<Key,Value> antecessor(Node<Key,Value> aux ,Node<Key,Value> x) {
-        int cmp = aux.getKey().compareTo(x.getKey());
-        while(cmp != 0) {
-            if (Objects.equals(aux, x.getRightNode()) || Objects.equals(aux, x.getLeftNode())) {
-                break;
-            }
-            if (cmp < 0) {
-                x = x.getLeftNode();
-            }else{
-                x = x.getRightNode();
-            }
-        }
-        return x;
-    }
-}*/
-
+      private int height(Node node) {
+        return node != null ? node.getHeight() : -1;
+      }
     
+      private void updateHeight(Node node) {
+        int leftChildHeight = height(node.getLeft());
+        int rightChildHeight = height(node.getRight());
+        node.setHeight(Math.max(leftChildHeight, rightChildHeight) + 1); 
+      }
+    
+      private int balanceFactor(Node node) {
+        return height(node.getRight()) - height(node.getLeft());
+      }
+
+      private Node rotateRight(Node node) {
+        Node leftChild = node.getLeft();
+      
+        node.setLeft(leftChild.getRight());
+        leftChild.setRight(node);
+      
+        updateHeight(node);
+        updateHeight(leftChild);
+      
+        return leftChild;
+      }
+
+      private Node rotateLeft(Node node) {
+        Node rightChild = node.getRight();
+      
+        node.setRight(rightChild.getLeft()); 
+        rightChild.setLeft(node); 
+      
+        updateHeight(node);
+        updateHeight(rightChild);
+      
+        return rightChild;
+      }
+
+      private Node rebalance(Node node) {
+        int balanceFactor = balanceFactor(node);
+      
+        // Left-heavy?
+        if (balanceFactor < -1) {
+          if (balanceFactor(node.getLeft()) <= 0) {    // Case 1
+            // Rotate right
+            node = rotateRight(node);
+          } else {                                // Case 2
+            // Rotate left-right
+            node.setLeft(rotateLeft(node.getLeft())); 
+            node = rotateRight(node);
+          }
+        }
+      
+        // Right-heavy?
+        if (balanceFactor > 1) {
+          if (balanceFactor(node.getRight()) >= 0) {    // Case 3
+            // Rotate left
+            node = rotateLeft(node);
+          } else {                                 // Case 4
+            // Rotate right-left
+            node.setRight(rotateRight(node.getRight())); 
+            node = rotateLeft(node);
+          }
+        }
+        return node;
+    }
+
 }
 
