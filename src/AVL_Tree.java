@@ -71,15 +71,12 @@ public class AVL_Tree{
         if (node == null) {
           return null;
         }
-      
-        // Traverse the tree to the left or right depending on the key
+    
         if (key < node.getKey()) {
           node.setLeft(deleteNode(key, node.getLeft()));
         } else if (key > node.getKey()) {
           node.setRight(deleteNode(key, node.getRight()));
         }
-      
-        // At this point, "node" is the node to be deleted
       
         // Node has no children --> just delete it
         else if (node.getLeft() == null && node.getRight() == null) {
@@ -104,10 +101,8 @@ public class AVL_Tree{
       }
 
       private void deleteNodeWithTwoChildren(Node node) {
-        // Find minimum node of right subtree ("inorder successor" of current node)
         Node inOrderSuccessor = findMinimum(node.getRight());
       
-        // Copy inorder successor's getKey() to current node
         node.setKey(inOrderSuccessor.getKey()); 
       
         // Delete inorder successor recursively
