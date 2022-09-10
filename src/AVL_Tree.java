@@ -95,6 +95,10 @@ public class AVL_Tree{
           deleteNodeWithTwoChildren(node);
         }
         
+        if (node == null) {
+          return null;
+        }
+        
         updateHeight(node);
 
         return rebalance(node);
@@ -161,9 +165,11 @@ public class AVL_Tree{
         if (balanceFactor < -1) {
           if (balanceFactor(node.getLeft()) <= 0) {    // Case 1
             // Rotate right
+            System.out.println("Realizando um rotação simples");
             node = rotateRight(node);
           } else {                                // Case 2
             // Rotate left-right
+            System.out.println("Realizando um rotação dupla");
             node.setLeft(rotateLeft(node.getLeft())); 
             node = rotateRight(node);
           }
@@ -173,9 +179,11 @@ public class AVL_Tree{
         if (balanceFactor > 1) {
           if (balanceFactor(node.getRight()) >= 0) {    // Case 3
             // Rotate left
+            System.out.println("Realizando um rotação simples");
             node = rotateLeft(node);
           } else {                                 // Case 4
             // Rotate right-left
+            System.out.println("Realizando um rotação dupla");
             node.setRight(rotateRight(node.getRight())); 
             node = rotateLeft(node);
           }

@@ -43,6 +43,7 @@ public class Main {
                     Integer r = s.nextInt();
                     Node curr = tree.search(r);
                     if (curr != null) {
+                        System.out.println("/n");
                         System.out.println("Nó existe na árvore");
                         if (curr.getLeft() != null) {
                            System.out.println("Left:" + curr.getLeft().getKey()); 
@@ -55,6 +56,7 @@ public class Main {
                     else{
                         System.out.println("Nó não existe na árvore");
                     }
+                    System.out.println("/n");
                     break;
 
                 case 4:
@@ -63,12 +65,13 @@ public class Main {
                     int op2 = s.nextInt();
                     switch (op2) {
                         case 1: System.out.println(walker.preorder()); 
-                            
+                            break;
                         case 2: System.out.println(walker.inOrder()); 
-                            
+                            break;
                         case 3: System.out.println(walker.postorder());
-
+                            break;
                         case 4: System.out.println(walker.breadthFirst());
+                            break;
                     }
                     break;                  
             }
