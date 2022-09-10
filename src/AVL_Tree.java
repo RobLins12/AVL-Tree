@@ -15,11 +15,7 @@ public class AVL_Tree{
     public AVL_Tree(){
         this.root = null;
     }
-    
-    public boolean isEmpty(){
-        return this.root == null;
-    }
-     
+
     public void insert(Integer key){
         this.setRoot(insert(key, this.getRoot()));
     }
@@ -71,7 +67,6 @@ public class AVL_Tree{
         if (node == null) {
           return null;
         }
-    
         if (key < node.getKey()) {
           node.setLeft(deleteNode(key, node.getLeft()));
         } else if (key > node.getKey()) {
@@ -105,7 +100,7 @@ public class AVL_Tree{
       }
 
       private void deleteNodeWithTwoChildren(Node node) {
-        Node inOrderSuccessor = findMinimum(node.getRight());
+        Node inOrderSuccessor = findMax(node.getLeft());
       
         node.setKey(inOrderSuccessor.getKey()); 
       
@@ -116,6 +111,12 @@ public class AVL_Tree{
       private Node findMinimum(Node node) {
         while (node.getLeft() != null) {
           node = node.getLeft();
+        }
+        return node;
+      }
+      private Node findMax(Node node){
+        while(node.getRight() != null){
+            node = node.getRight();
         }
         return node;
       }
