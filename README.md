@@ -23,4 +23,4 @@ Nossa árvore possui tais funcionalidades:
 -preOrder <br>
 -breadthFirst <br>
 
-![image](https://user-images.githubusercontent.com/100130158/189463989-7ad4ed79-7dfc-4b6d-bdf7-2a9e36e25663.png)
+<img scr="https://wiki.sj.ifsc.edu.br/images/e/e5/Prg2-Preorder.gif">
