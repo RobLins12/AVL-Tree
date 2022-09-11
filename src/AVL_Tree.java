@@ -72,22 +72,19 @@ public class AVL_Tree{
         } else if (key > node.getKey()) {
           node.setRight(deleteNode(key, node.getRight()));
         }
-        // Node has only one child --> replace node by its single child
+        // Node has only one child --> replace node by its single child / Obs : Works for leaf's(Both Null Children) also;
         else if (node.getLeft() == null) {
           node = node.getRight();
         } else if (node.getRight() == null) {
           node = node.getLeft();
         }
-      
         // Node has two children
         else {
           deleteNodeWithTwoChildren(node);
         }
-        
         if (node == null) {
           return null;
         }
-        
         updateHeight(node);
 
         return rebalance(node);
@@ -159,13 +156,14 @@ public class AVL_Tree{
         // Left-heavy?
 
         if (balanceFactor < -1) {
+            System.out.println("Árvore desbalanceada para a esquerda");
           if (balanceFactor(node.getLeft()) <= 0) {    // Case 1
             // Rotate right
-            System.out.println("Realizando um rotação simples");
+              System.out.println("Desbalanceamento Left-Left \n Executando rotação para direita");
             node = rotateRight(node);
-          } else {                                // Case 2
+          } else {
             // Rotate left-right
-            System.out.println("Realizando um rotação dupla");
+              System.out.println("Desbalanceamento Left-Right \n Executando uma rotação para esquerda e em seguida uma para direita" );
             node.setLeft(rotateLeft(node.getLeft())); 
             node = rotateRight(node);
           }
@@ -173,13 +171,14 @@ public class AVL_Tree{
       
         // Right-heavy?
         if (balanceFactor > 1) {
+            System.out.println("Árvore desbalanceada para a direita");
           if (balanceFactor(node.getRight()) >= 0) {    // Case 3
             // Rotate left
-            System.out.println("Realizando um rotação simples");
+            System.out.println("Desbalanceamento Right-Right  \n Executando rotação para esquerda");
             node = rotateLeft(node);
           } else {                                 // Case 4
             // Rotate right-left
-            System.out.println("Realizando um rotação dupla");
+            System.out.println("Desbalanceamento Right-Left  \n Execuntado uma rotação para direita e em seguida uma para esquerda");
             node.setRight(rotateRight(node.getRight())); 
             node = rotateLeft(node);
           }

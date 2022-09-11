@@ -7,6 +7,7 @@ public class Main {
         //Árvore idealizada para trabalhar com inteiros
         Scanner s = new Scanner(System.in);
         AVL_Tree tree = new AVL_Tree();
+        TreePrinter p = new TreePrinter(tree);
         System.out.println("Bem vindo ao projeto AVL");
         try{
         int op;
@@ -20,21 +21,23 @@ public class Main {
             switch (op) {
                 case 1:
                     System.out.println("Digite o valor do no a ser inserido");
+                    p.imprimir(System.out);
+                    System.out.println("\n");
                     Integer i = s.nextInt();
                     tree.insert(i);
                     System.out.println("\n");
-                    TreePrinter p = new TreePrinter(tree);
                     p.imprimir(System.out);
                     System.out.println("\n");
                     break;
 
                 case 2:
                     System.out.println("Digite o valor do no a ser deletado");
+                    p.imprimir(System.out);
+                    System.out.println("\n");
                     Integer d = s.nextInt();
                     tree.deleteNode(d);
                     System.out.println("\n");
-                    TreePrinter p2 = new TreePrinter(tree);
-                    p2.imprimir(System.out);
+                    p.imprimir(System.out);
                     System.out.println("\n");
                     break;
 
