@@ -98,13 +98,6 @@ public class AVL_Tree{
         // Delete inorder successor recursively
         node.setLeft(deleteNode(inOrderSuccessor.getKey(), node.getLeft()));
       }
-      
-      private Node findMinimum(Node node) {
-        while (node.getLeft() != null) {
-          node = node.getLeft();
-        }
-        return node;
-      }
       private Node findMax(Node node){
         while(node.getRight() != null){
             node = node.getRight();
