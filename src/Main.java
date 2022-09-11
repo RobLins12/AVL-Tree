@@ -20,23 +20,29 @@ public class Main {
             }
             switch (op) {
                 case 1:
-                    System.out.println("Digite o valor do no a ser inserido");
+                    System.out.println(" ");
+                    System.out.println("Tree AVL");
                     p.imprimir(System.out);
                     System.out.println("\n");
+                    System.out.println("Digite o valor do no a ser inserido");
                     Integer i = s.nextInt();
                     tree.insert(i);
-                    System.out.println("\n");
+                    System.out.println(" ");
+                    System.out.println("Tree AVL");
                     p.imprimir(System.out);
                     System.out.println("\n");
                     break;
 
                 case 2:
-                    System.out.println("Digite o valor do no a ser deletado");
+                    System.out.println(" ");
+                    System.out.println("Tree AVL");
                     p.imprimir(System.out);
                     System.out.println("\n");
+                    System.out.println("Digite o valor do no a ser deletado");
                     Integer d = s.nextInt();
                     tree.deleteNode(d);
-                    System.out.println("\n");
+                    System.out.println(" ");
+                    System.out.println("Tree AVL");
                     p.imprimir(System.out);
                     System.out.println("\n");
                     break;

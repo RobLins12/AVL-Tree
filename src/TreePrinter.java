@@ -14,7 +14,7 @@ public class TreePrinter {
     private String traversePreOrder(Node root) {
 
         if (root == null) {
-            return "";
+            return "null";
         }
 
         StringBuilder sb = new StringBuilder();
