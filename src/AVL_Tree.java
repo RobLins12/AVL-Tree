@@ -72,12 +72,6 @@ public class AVL_Tree{
         } else if (key > node.getKey()) {
           node.setRight(deleteNode(key, node.getRight()));
         }
-      
-        // Node has no children --> just delete it
-        else if (node.getLeft() == null && node.getRight() == null) {
-          node = null;
-        }
-      
         // Node has only one child --> replace node by its single child
         else if (node.getLeft() == null) {
           node = node.getRight();
@@ -163,6 +157,7 @@ public class AVL_Tree{
         int balanceFactor = balanceFactor(node);
       
         // Left-heavy?
+
         if (balanceFactor < -1) {
           if (balanceFactor(node.getLeft()) <= 0) {    // Case 1
             // Rotate right
