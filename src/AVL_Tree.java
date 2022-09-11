@@ -17,9 +17,8 @@ public class AVL_Tree{
     }
 
     public void insert(Integer key){
-        this.setRoot(insert(key, this.getRoot()));
+      this.setRoot(insert(key, this.getRoot()));
     }
-
     private Node insert(Integer key, Node node){
         if (node == null) {
             return new Node(key);
@@ -28,14 +27,14 @@ public class AVL_Tree{
             if(cmp < 0){
                 Node leftSubTree = this.insert(key, node.getLeft());
                 node.setLeft(leftSubTree);
-            }else if(cmp >= 0){
+            }else if(cmp > 0){
                 Node rigthtSubTree = this.insert(key, node.getRight());
                 node.setRight(rigthtSubTree);
-            }
+            }else{
+                return node;
+            } 
         }
-
         updateHeight(node);
-
         return rebalance(node);
     }
 
