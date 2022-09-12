@@ -146,14 +146,16 @@ public class AVL_Tree{
         // Left-heavy?
 
         if (balanceFactor < -1) {
-            System.out.println("Árvore desbalanceada para a esquerda");
+            System.out.println("\nÁrvore desbalanceada para a esquerda\n");
+            TreePrinter p = new TreePrinter(this);
+            p.imprimir(System.out);
           if (balanceFactor(node.getLeft()) <= 0) {    // Case 1
             // Rotate right
-              System.out.println("Desbalanceamento Left-Left \n Executando rotação para direita");
+              System.out.println("\nDesbalanceamento Left-Left \nExecutando rotação para direita");
             node = rotateRight(node);
           } else {
             // Rotate left-right
-              System.out.println("Desbalanceamento Left-Right \n Executando uma rotação para esquerda e em seguida uma para direita" );
+            System.out.println("Desbalanceamento Left-Right \nExecutando uma rotação para esquerda e em seguida uma para direita" );
             node.setLeft(rotateLeft(node.getLeft())); 
             node = rotateRight(node);
           }
@@ -161,14 +163,16 @@ public class AVL_Tree{
       
         // Right-heavy?
         if (balanceFactor > 1) {
-            System.out.println("Árvore desbalanceada para a direita");
+            System.out.println("\nÁrvore desbalanceada para a direita\n");
+            TreePrinter p = new TreePrinter(this);
+            p.imprimir(System.out);
           if (balanceFactor(node.getRight()) >= 0) {    // Case 3
             // Rotate left
-            System.out.println("Desbalanceamento Right-Right  \n Executando rotação para esquerda");
+            System.out.println("\nDesbalanceamento Right-Right  \nExecutando rotação para esquerda");
             node = rotateLeft(node);
           } else {                                 // Case 4
             // Rotate right-left
-            System.out.println("Desbalanceamento Right-Left  \n Execuntado uma rotação para direita e em seguida uma para esquerda");
+            System.out.println("Desbalanceamento Right-Left  \nExecuntado uma rotação para direita e em seguida uma para esquerda");
             node.setRight(rotateRight(node.getRight())); 
             node = rotateLeft(node);
           }
