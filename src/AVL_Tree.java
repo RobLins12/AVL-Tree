@@ -58,126 +58,127 @@ public class AVL_Tree{
 	
     public void deleteNode(Integer key) {
         root = deleteNode(key, root);
-      }
+    }
       
-      Node deleteNode(Integer key, Node node) {
-        if (node == null) {
-          return null;
-        }
-        if (key < node.getKey()) {
-          node.setLeft(deleteNode(key, node.getLeft()));
-        } else if (key > node.getKey()) {
-          node.setRight(deleteNode(key, node.getRight()));
-        }
-        // Node has only one child --> replace node by its single child / Obs : Works for leaf's(Both Null Children) also;
-        else if (node.getLeft() == null) {
+    private Node deleteNode(Integer key, Node node) {
+      if (node == null) {
+        return null;
+      }
+      if (key < node.getKey()) {
+        node.setLeft(deleteNode(key, node.getLeft()));
+      } else if (key > node.getKey()) {
+        node.setRight(deleteNode(key, node.getRight()));
+      }
+      // Node has only one child --> replace node by its single child / Obs : Works for leaf's(Both Null Children) also;
+      else if (node.getLeft() == null) {
+        node = node.getRight();
+      } else if (node.getRight() == null) {
+        node = node.getLeft();
+      }
+      // Node has two children
+      else {
+        deleteNodeWithTwoChildren(node);
+      }
+      if (node == null) {
+        return null;
+      }
+      updateHeight(node);
+
+      return rebalance(node);
+    }
+
+    private void deleteNodeWithTwoChildren(Node node) {
+      Node inOrderSuccessor = findMax(node.getLeft());
+    
+      node.setKey(inOrderSuccessor.getKey()); 
+    
+      // Delete inorder successor recursively
+      node.setLeft(deleteNode(inOrderSuccessor.getKey(), node.getLeft()));
+    }
+
+    private Node findMax(Node node){
+      while(node.getRight() != null){
           node = node.getRight();
-        } else if (node.getRight() == null) {
-          node = node.getLeft();
-        }
-        // Node has two children
-        else {
-          deleteNodeWithTwoChildren(node);
-        }
-        if (node == null) {
-          return null;
-        }
-        updateHeight(node);
-
-        return rebalance(node);
       }
+      return node;
+    }
 
-      private void deleteNodeWithTwoChildren(Node node) {
-        Node inOrderSuccessor = findMax(node.getLeft());
-      
-        node.setKey(inOrderSuccessor.getKey()); 
-      
-        // Delete inorder successor recursively
-        node.setLeft(deleteNode(inOrderSuccessor.getKey(), node.getLeft()));
-      }
-      private Node findMax(Node node){
-        while(node.getRight() != null){
-            node = node.getRight();
+    private int height(Node node) {
+      return node != null ? node.getHeight() : -1;
+    }
+    
+    private void updateHeight(Node node) {
+      int leftChildHeight = height(node.getLeft());
+      int rightChildHeight = height(node.getRight());
+      node.setHeight(Math.max(leftChildHeight, rightChildHeight) + 1); 
+    }
+    
+    private int balanceFactor(Node node) {
+      return height(node.getRight()) - height(node.getLeft());
+    }
+
+    private Node rotateRight(Node node) {
+      Node leftChild = node.getLeft();
+    
+      node.setLeft(leftChild.getRight());
+      leftChild.setRight(node);
+    
+      updateHeight(node);
+      updateHeight(leftChild);
+    
+      return leftChild;
+    }
+
+    private Node rotateLeft(Node node) {
+      Node rightChild = node.getRight();
+    
+      node.setRight(rightChild.getLeft()); 
+      rightChild.setLeft(node); 
+    
+      updateHeight(node);
+      updateHeight(rightChild);
+    
+      return rightChild;
+    }
+
+    private Node rebalance(Node node) {
+      int balanceFactor = balanceFactor(node);
+    
+      // Left-heavy?
+
+      if (balanceFactor < -1) {
+          System.out.println("\nÁrvore desbalanceada para a esquerda\n");
+          TreePrinter p = new TreePrinter(this);
+          p.imprimir(System.out);
+        if (balanceFactor(node.getLeft()) <= 0) {    // Case 1
+          // Rotate right
+          System.out.println("\nDesbalanceamento Left-Left \nExecutando rotação para direita");
+          node = rotateRight(node);
+        } else {
+          // Rotate left-right
+          System.out.println("Desbalanceamento Left-Right \nExecutando uma rotação para esquerda e em seguida uma para direita" );
+          node.setLeft(rotateLeft(node.getLeft())); 
+          node = rotateRight(node);
         }
-        return node;
-      }
-
-      private int height(Node node) {
-        return node != null ? node.getHeight() : -1;
       }
     
-      private void updateHeight(Node node) {
-        int leftChildHeight = height(node.getLeft());
-        int rightChildHeight = height(node.getRight());
-        node.setHeight(Math.max(leftChildHeight, rightChildHeight) + 1); 
-      }
-    
-      private int balanceFactor(Node node) {
-        return height(node.getRight()) - height(node.getLeft());
-      }
-
-      private Node rotateRight(Node node) {
-        Node leftChild = node.getLeft();
-      
-        node.setLeft(leftChild.getRight());
-        leftChild.setRight(node);
-      
-        updateHeight(node);
-        updateHeight(leftChild);
-      
-        return leftChild;
-      }
-
-      private Node rotateLeft(Node node) {
-        Node rightChild = node.getRight();
-      
-        node.setRight(rightChild.getLeft()); 
-        rightChild.setLeft(node); 
-      
-        updateHeight(node);
-        updateHeight(rightChild);
-      
-        return rightChild;
-      }
-
-      private Node rebalance(Node node) {
-        int balanceFactor = balanceFactor(node);
-      
-        // Left-heavy?
-
-        if (balanceFactor < -1) {
-            System.out.println("\nÁrvore desbalanceada para a esquerda\n");
-            TreePrinter p = new TreePrinter(this);
-            p.imprimir(System.out);
-          if (balanceFactor(node.getLeft()) <= 0) {    // Case 1
-            // Rotate right
-              System.out.println("\nDesbalanceamento Left-Left \nExecutando rotação para direita");
-            node = rotateRight(node);
-          } else {
-            // Rotate left-right
-            System.out.println("Desbalanceamento Left-Right \nExecutando uma rotação para esquerda e em seguida uma para direita" );
-            node.setLeft(rotateLeft(node.getLeft())); 
-            node = rotateRight(node);
-          }
+      // Right-heavy?
+      if (balanceFactor > 1) {
+          System.out.println("\nÁrvore desbalanceada para a direita\n");
+          TreePrinter p = new TreePrinter(this);
+          p.imprimir(System.out);
+        if (balanceFactor(node.getRight()) >= 0) {    // Case 3
+          // Rotate left
+          System.out.println("\nDesbalanceamento Right-Right  \nExecutando rotação para esquerda");
+          node = rotateLeft(node);
+        } else {                                 // Case 4
+          // Rotate right-left
+          System.out.println("Desbalanceamento Right-Left  \nExecuntado uma rotação para direita e em seguida uma para esquerda");
+          node.setRight(rotateRight(node.getRight())); 
+          node = rotateLeft(node);
         }
-      
-        // Right-heavy?
-        if (balanceFactor > 1) {
-            System.out.println("\nÁrvore desbalanceada para a direita\n");
-            TreePrinter p = new TreePrinter(this);
-            p.imprimir(System.out);
-          if (balanceFactor(node.getRight()) >= 0) {    // Case 3
-            // Rotate left
-            System.out.println("\nDesbalanceamento Right-Right  \nExecutando rotação para esquerda");
-            node = rotateLeft(node);
-          } else {                                 // Case 4
-            // Rotate right-left
-            System.out.println("Desbalanceamento Right-Left  \nExecuntado uma rotação para direita e em seguida uma para esquerda");
-            node.setRight(rotateRight(node.getRight())); 
-            node = rotateLeft(node);
-          }
-        }
-        return node;
+      }
+      return node;
     }
 
 }
