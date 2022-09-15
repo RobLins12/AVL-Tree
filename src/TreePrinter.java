@@ -18,7 +18,7 @@ public class TreePrinter {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append(root.getKey());
+        sb.append(root.getKey() + " [" + root.getHeight() + "]");
 
         String pointerRight = "└──R: ";
         String pointerLeft = (root.getRight() != null) ? "├──L: " : "└──L: ";
@@ -37,7 +37,7 @@ public class TreePrinter {
             sb.append("\n");
             sb.append(padding);
             sb.append(pointer);
-            sb.append(node.getKey());
+            sb.append(node.getKey() + " [" + node.getHeight() + "]");
 
             StringBuilder paddingBuilder = new StringBuilder(padding);
             if (hasRightSibling) {

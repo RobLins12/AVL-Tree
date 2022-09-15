@@ -152,10 +152,12 @@ public class AVL_Tree{
           p.imprimir(System.out);
         if (balanceFactor(node.getLeft()) <= 0) {    // Case 1
           // Rotate right
+          System.out.println("");
           System.out.println("\nDesbalanceamento Left-Left \nExecutando rotação para direita");
           node = rotateRight(node);
         } else {
           // Rotate left-right
+          System.out.println("");
           System.out.println("Desbalanceamento Left-Right \nExecutando uma rotação para esquerda e em seguida uma para direita" );
           node.setLeft(rotateLeft(node.getLeft())); 
           node = rotateRight(node);
@@ -169,10 +171,12 @@ public class AVL_Tree{
           p.imprimir(System.out);
         if (balanceFactor(node.getRight()) >= 0) {    // Case 3
           // Rotate left
+          System.out.println("");
           System.out.println("\nDesbalanceamento Right-Right  \nExecutando rotação para esquerda");
           node = rotateLeft(node);
         } else {                                 // Case 4
           // Rotate right-left
+          System.out.println("");
           System.out.println("Desbalanceamento Right-Left  \nExecuntado uma rotação para direita e em seguida uma para esquerda");
           node.setRight(rotateRight(node.getRight())); 
           node = rotateLeft(node);
